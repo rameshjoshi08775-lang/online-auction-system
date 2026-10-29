@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% block title %}{{ auction.title }} - BidSquare{% endblock %}
+{% block content %}
+<h1>{{ auction.title }}</h1>
+<p class="muted">Auction ID: AUC-{{ 1000 + auction.id }} &middot; Seller: {{ auction.seller }}</p>
+
+<div class="detail">
+  <div class="hero">{{ auction.title[0]|upper }}</div>
+  <div class="panel">
+    <p class="muted small">Current highest bid</p>
+    <p class="price big">{{ current_price|money }}</p>
+    <p class="small">Auction status:
+      {% if is_open %}<span class="badge open">Active</span>{% else %}<span class="badge closed">Closed</span>{% endif %}
+    </p>
+    <p class="muted small">{{ 'Ends' if is_open else 'Ended' }} {{ auction.ends_at|localtime }} {{ tz_label }}</p>
+    <hr>
+    <h3>Description</h3>
+    <p>{{ auction.description }}</p>
+    <p class="muted small">Starting price: {{ auction.starting_price|money }}</p>
+
+    {% if not is_open %}
+      <p class="notice">
+        {% if winner %}Auction closed. Winner: <strong>{{ winner }}</strong> with {{ current_price|money }}.
+        {% else %}Auction closed with no bids.{% endif %}
+      </p>
+    {% elif session.get('user_id') %}
+      <form method="post" action="{{ url_for('place_bid', auction_id=auction.id) }}" class="bidform">
+        <label>Your bid (₹)
+          <input name="amount" type="number" step="0.01" min="0.01" required placeholder="Enter amount">
+        </label>
+        <button type="submit">Place Bid</button>
+      </form>
+    {% else %}
+      <p class="notice"><a href="{{ url_for('login') }}">Log in</a> to place a bid.</p>
+    {% endif %}
+  </div>
+</div>
+
+<h2>Bid history</h2>
+{% if bids %}
+<table>
+  <thead><tr><th>#</th><th>Bidder</th><th>Amount</th><th>Time ({{ tz_label }})</th></tr></thead>
+  <tbody>
+  {% for b in bids %}
+    <tr><td>{{ loop.index }}</td><td>{{ b.bidder }}</td><td>{{ b.amount|money }}</td><td>{{ b.created_at|localtime }}</td></tr>
+  {% endfor %}
+  </tbody>
+</table>
+{% else %}
+<p class="muted">No bids yet. Be the first!</p>
+{% endif %}
+{% endblock %}

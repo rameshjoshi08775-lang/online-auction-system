@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block title %}Not found - BidSquare{% endblock %}
+{% block content %}
+<div class="panel narrow center">
+  <h1>404 - Not found</h1>
+  <p class="muted">The auction or page you requested does not exist.</p>
+  <a class="btn" href="{{ url_for('index') }}">Back to auctions</a>
+</div>
+{% endblock %}

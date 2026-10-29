@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block content %}
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<h1>Discover live auctions</h1>
+<p class="muted">Find something special and place your bid before time runs out.</p>
+
+<form class="searchbar" method="get" action="{{ url_for('index') }}">
+  <input name="q" value="{{ q }}" placeholder="Search listings">
+  <button type="submit">Search</button>
+</form>
+
+{% if items %}
+<div class="grid">
+  {% for item in items %}
+  {% set a = item.auction %}
+  <div class="card">
+    <div class="thumb">{{ a.title[0]|upper }}</div>
+    <h3>{{ a.title }}</h3>
+    <p class="muted small">Seller: {{ a.seller }}</p>
+    <p class="muted small">Current bid</p>
+    <p class="price">{{ item.current_price|money }}
+      <span class="muted small">{{ a.bid_count }} bid{{ '' if a.bid_count == 1 else 's' }}</span></p>
+    <p class="small">
+      {% if item.is_open %}<span class="badge open">Active</span>
+      {% else %}<span class="badge closed">Closed</span>{% endif %}
+      <span class="muted">Ends {{ a.ends_at|localtime }} {{ tz_label }}</span>
+    </p>
+    <a class="btn block" href="{{ url_for('auction_detail', auction_id=a.id) }}">View Auction</a>
+  </div>
+  {% endfor %}
+</div>
+{% else %}
+<p class="empty">No auctions found. {% if session.get('user_id') %}<a href="{{ url_for('new_auction') }}">Create the first listing.</a>{% else %}<a href="{{ url_for('register') }}">Register</a> and create the first listing.{% endif %}</p>
+{% endif %}
+{% endblock %}

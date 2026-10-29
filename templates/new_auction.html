@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %}Create Listing - BidSquare{% endblock %}
+{% block content %}
+<div class="panel">
+  <h1>Create a new auction</h1>
+  <p class="muted">Provide clear details so bidders know what is being offered.</p>
+  <form method="post">
+    <label>Item title <input name="title" required maxlength="120" placeholder="e.g. Vintage Camera"></label>
+    <label>Description <textarea name="description" rows="4" required placeholder="Condition, features and other details"></textarea></label>
+    <div class="row">
+      <label>Starting price (₹) <input name="starting_price" type="number" min="0.01" step="0.01" required placeholder="1000"></label>
+      <label>Closing date/time ({{ tz_label }}) <input name="ends_at" type="datetime-local" required></label>
+    </div>
+    <button type="submit">Publish Auction</button>
+  </form>
+</div>
+{% endblock %}

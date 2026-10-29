@@ -1,0 +1,5 @@
+venv/
+__pycache__/
+*.pyc
+auction.db
+.secret_key

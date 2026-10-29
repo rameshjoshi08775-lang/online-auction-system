@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}Register - BidSquare{% endblock %}
+{% block content %}
+<div class="panel narrow">
+  <h1>Create your account</h1>
+  <p class="muted">Join the marketplace to list items and participate in auctions.</p>
+  <form method="post">
+    <label>Username <input name="username" required maxlength="40" placeholder="e.g. aditi_sharma"></label>
+    <label>Email address <input name="email" type="email" required placeholder="you@example.com"></label>
+    <label>Password (min. 8 characters) <input name="password" type="password" required minlength="8"></label>
+    <button type="submit">Create Account</button>
+  </form>
+  <p class="muted small">Already registered? <a href="{{ url_for('login') }}">Login</a></p>
+</div>
+{% endblock %}

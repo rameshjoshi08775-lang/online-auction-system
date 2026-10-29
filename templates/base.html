@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}BidSquare - Online Auction{% endblock %}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<header class="topbar">
+  <a class="brand" href="{{ url_for('index') }}">
+    <span class="logo">A</span>
+    <span>BidSquare<small>ONLINE AUCTION SYSTEM</small></span>
+  </a>
+  <nav>
+    <a href="{{ url_for('index') }}">Auctions</a>
+    {% if session.get('user_id') %}
+      <a href="{{ url_for('new_auction') }}">Create Listing</a>
+      <span class="user">Hi, {{ session['username'] }}</span>
+      <a href="{{ url_for('logout') }}">Logout</a>
+    {% else %}
+      <a href="{{ url_for('register') }}">Register</a>
+      <a href="{{ url_for('login') }}">Login</a>
+    {% endif %}
+  </nav>
+</header>
+<main>
+  {% with messages = get_flashed_messages() %}
+    {% if messages %}
+      <ul class="messages">
+        {% for message in messages %}<li>{{ message }}</li>{% endfor %}
+      </ul>
+    {% endif %}
+  {% endwith %}
+  {% block content %}{% endblock %}
+</main>
+<footer>Online Auction System using Python &middot; Flask + SQLite &middot; Educational prototype</footer>
+</body>
+</html>
