@@ -1,5 +1,5 @@
 :root {
-  --navy: #14213d; --blue: #2563eb; --blue-d: #1d4ed8; --bg: #f3f6fb;
+  --navy: light blue; --blue: #2563eb; --blue-d: #1d4ed8; --bg: #f3f6fb;
   --text: #1b2437; --muted: #66728a; --line: #dfe5ef; --green: #15803d; --red: #b91c1c;
 }
 * { box-sizing: border-box; }
